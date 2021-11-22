@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2021 at 01:52 PM
+-- Generation Time: Nov 22, 2021 at 10:37 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -57,8 +57,7 @@ CREATE TABLE `kniha_template` (
   `nazov` varchar(255) NOT NULL,
   `autor` varchar(255) NOT NULL,
   `rok_vydania` date NOT NULL,
-  `vydavatelsvo` varchar(255) NOT NULL,
-  `historia` int(11) NOT NULL DEFAULT 0
+  `vydavatelsvo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,7 +67,7 @@ CREATE TABLE `kniha_template` (
 --
 
 CREATE TABLE `librarian` (
-  `id_Librarian` int(11) NOT NULL,
+  `id_librarian` int(11) NOT NULL,
   `id_branch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -82,7 +81,7 @@ CREATE TABLE `osoba` (
   `meno` varchar(255) NOT NULL,
   `priezvisko` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `tel_cislo` int(255) NOT NULL,
+  `tel_cislo` varchar(255) NOT NULL,
   `id_zakaznik` int(255) NOT NULL,
   `id_librarian` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -102,14 +101,15 @@ CREATE TABLE `poskodenie` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vypozicane knihy`
+-- Table structure for table `vypozicane_knihy`
 --
 
-CREATE TABLE `vypozicane knihy` (
-  `id_knihy` int(11) NOT NULL,
-  `id_zakaznika` int(11) NOT NULL,
+CREATE TABLE `vypozicane_knihy` (
+  `id_kniha` int(11) NOT NULL,
+  `id_zakaznik` int(11) NOT NULL,
   `datum_vypozicania` date NOT NULL,
-  `datum_vratenia` date NOT NULL
+  `datum_vratenia` date DEFAULT NULL,
+  `datum_terminu_vratenia` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -119,8 +119,7 @@ CREATE TABLE `vypozicane knihy` (
 --
 
 CREATE TABLE `zakaznik` (
-  `id_zakaznik` int(11) NOT NULL,
-  `historia_knih` varchar(255) NOT NULL
+  `id_zakaznik` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -150,7 +149,7 @@ ALTER TABLE `kniha_template`
 -- Indexes for table `librarian`
 --
 ALTER TABLE `librarian`
-  ADD PRIMARY KEY (`id_Librarian`),
+  ADD PRIMARY KEY (`id_librarian`),
   ADD KEY `librarian_fk0` (`id_branch`);
 
 --
@@ -168,11 +167,11 @@ ALTER TABLE `poskodenie`
   ADD KEY `poskodenie_fk1` (`id_zakaznik`);
 
 --
--- Indexes for table `vypozicane knihy`
+-- Indexes for table `vypozicane_knihy`
 --
-ALTER TABLE `vypozicane knihy`
-  ADD KEY `Vypozicane knihy_fk0` (`id_knihy`),
-  ADD KEY `Vypozicane knihy_fk1` (`id_zakaznika`);
+ALTER TABLE `vypozicane_knihy`
+  ADD KEY `vypozicane_knihy_fk0` (`id_kniha`),
+  ADD KEY `vypozicane_knihy_fk1` (`id_zakaznik`);
 
 --
 -- Indexes for table `zakaznik`
@@ -200,7 +199,7 @@ ALTER TABLE `kniha_template`
 -- AUTO_INCREMENT for table `librarian`
 --
 ALTER TABLE `librarian`
-  MODIFY `id_Librarian` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_librarian` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `zakaznik`
@@ -229,7 +228,7 @@ ALTER TABLE `librarian`
 --
 ALTER TABLE `osoba`
   ADD CONSTRAINT `osoba_fk0` FOREIGN KEY (`id_zakaznik`) REFERENCES `zakaznik` (`id_zakaznik`),
-  ADD CONSTRAINT `osoba_fk1` FOREIGN KEY (`id_librarian`) REFERENCES `librarian` (`id_Librarian`);
+  ADD CONSTRAINT `osoba_fk1` FOREIGN KEY (`id_librarian`) REFERENCES `librarian` (`id_librarian`);
 
 --
 -- Constraints for table `poskodenie`
@@ -239,11 +238,11 @@ ALTER TABLE `poskodenie`
   ADD CONSTRAINT `poskodenie_fk1` FOREIGN KEY (`id_zakaznik`) REFERENCES `zakaznik` (`id_zakaznik`);
 
 --
--- Constraints for table `vypozicane knihy`
+-- Constraints for table `vypozicane_knihy`
 --
-ALTER TABLE `vypozicane knihy`
-  ADD CONSTRAINT `Vypozicane knihy_fk0` FOREIGN KEY (`id_knihy`) REFERENCES `kniha` (`id_kniha`),
-  ADD CONSTRAINT `Vypozicane knihy_fk1` FOREIGN KEY (`id_zakaznika`) REFERENCES `zakaznik` (`id_zakaznik`);
+ALTER TABLE `vypozicane_knihy`
+  ADD CONSTRAINT `vypozicane_knihy_fk0` FOREIGN KEY (`id_kniha`) REFERENCES `kniha` (`id_kniha`),
+  ADD CONSTRAINT `vypozicane_knihy_fk1` FOREIGN KEY (`id_zakaznik`) REFERENCES `zakaznik` (`id_zakaznik`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
