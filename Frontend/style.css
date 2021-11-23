@@ -1,0 +1,29 @@
+body{
+  background-color: rgb(228, 227, 227);
+}
+
+header{
+  background-color: white;
+}
+
+
+
+footer{
+  background-color: rgb(13, 110, 253)
+
+}
+
+footer{
+  position: absolute;
+  bottom:0;
+  padding: 8px;
+  text-align: center;
+  width:100%;
+
+  
+}
+
+footer span{
+  color: white;
+}
+
