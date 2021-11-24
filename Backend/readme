@@ -1,0 +1,9 @@
+This is how you install manually if requirements.txt doesn't work:
+
+First try: python3 -m pip install -r requirements.txt
+
+Manually: pip install flask
+          pip install mysql_connector
+
+You need python3 and pip to install these packages.
+
